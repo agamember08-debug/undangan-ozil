@@ -53,6 +53,11 @@ footer{text-align:center;padding:35px 25px 45px;background:#dceff6;color:#557783
 <body>
 <div class="page">
  <button class="music-btn" id="musicBtn">🔇</button>
+ 
+ <audio id="bgMusic" loop preload="auto">
+    <source src="musik.mp3" type="audio/mpeg">
+</audio>
+ 
 <section class="hero">
 <div>
 <div class="cloud">☁️ ✦ ☁️</div>
@@ -62,7 +67,7 @@ footer{text-align:center;padding:35px 25px 45px;background:#dceff6;color:#557783
 <h1>Ozil<br>Abraham R</h1>
 <div class="date">Sabtu, 10 Oktober 2026</div>
 <div class="location">📍 Sinanggul</div>
-<a class="btn" href="#undangan">Buka Undangan ↓</a>
+<a class="btn" href="#undangan" id="openInvitation">Buka Undangan ↓</a>
 </div>
 </section>
 
@@ -124,6 +129,33 @@ function tick(){
  document.getElementById('s').textContent=String(Math.floor(diff/1000)%60).padStart(2,'0');
 }
 tick();setInterval(tick,1000);
+
+ // MUSIK UNDANGAN
+const music = document.getElementById('bgMusic');
+const musicBtn = document.getElementById('musicBtn');
+const openInvitation = document.getElementById('openInvitation');
+
+// Musik mulai ketika tombol Buka Undangan diklik
+openInvitation.addEventListener('click', function() {
+    music.play().then(function() {
+        musicBtn.textContent = '🔊';
+    }).catch(function(error) {
+        console.log('Musik tidak dapat diputar:', error);
+    });
+});
+
+// Tombol ON/OFF musik
+musicBtn.addEventListener('click', function() {
+    if (music.paused) {
+        music.play().then(function() {
+            musicBtn.textContent = '🔊';
+        });
+    } else {
+        music.pause();
+        musicBtn.textContent = '🔇';
+    }
+});
+ 
 </script>
 </body>
 </html>
