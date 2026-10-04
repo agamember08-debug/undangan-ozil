@@ -33,10 +33,26 @@ footer{text-align:center;padding:35px 25px 45px;background:#dceff6;color:#557783
     display: block;
     margin: 20px auto;
 }
+ .music-btn{
+    position:fixed;
+    right:20px;
+    bottom:20px;
+    width:48px;
+    height:48px;
+    border:none;
+    border-radius:50%;
+    background:#4f91ad;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+    z-index:9999;
+    box-shadow:0 5px 15px rgba(0,0,0,.18);
+}
 </style>
 </head>
 <body>
 <div class="page">
+ <button class="music-btn" id="musicBtn">🔇</button>
 <section class="hero">
 <div>
 <div class="cloud">☁️ ✦ ☁️</div>
@@ -104,36 +120,27 @@ footer{text-align:center;padding:35px 25px 45px;background:#dceff6;color:#557783
 </div>
 <script>
 <script>
-const target = new Date('2026-10-10T10:00:00+07:00').getTime();
-
-function tick(){
- const now=Date.now(), diff=Math.max(0,target-now);
-
- document.getElementById('d').textContent =
- String(Math.floor(diff/86400000)).padStart(2,'0');
-
- document.getElementById('h').textContent =
- String(Math.floor(diff/3600000)%24).padStart(2,'0');
-
- document.getElementById('m').textContent =
- String(Math.floor(diff/60000)%60).padStart(2,'0');
-
- document.getElementById('s').textContent =
- String(Math.floor(diff/1000)%60).padStart(2,'0');
-}
-
-tick();
-setInterval(tick,1000);
-
-
-// MUSIK UNDANGAN
 const music = document.getElementById('bgMusic');
 const openInvitation = document.getElementById('openInvitation');
+const musicBtn = document.getElementById('musicBtn');
 
 openInvitation.addEventListener('click', function() {
-    music.play().catch(function(error) {
-        console.log("Musik tidak dapat diputar:", error);
+    music.play().then(function() {
+        musicBtn.textContent = '🔊';
+    }).catch(function(error) {
+        console.log('Musik gagal diputar:', error);
     });
+});
+
+musicBtn.addEventListener('click', function() {
+    if (music.paused) {
+        music.play().then(function() {
+            musicBtn.textContent = '🔊';
+        });
+    } else {
+        music.pause();
+        musicBtn.textContent = '🔇';
+    }
 });
 </script>
 </body>
